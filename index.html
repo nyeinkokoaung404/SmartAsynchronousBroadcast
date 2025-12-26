@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Asynchronous Broadcast System</title>
+    <meta name="description" content="Smart Asynchronous Broadcast System: 🚀 The ultimate Telegram broadcasting platform with async power and elegance!">
+    <meta property="og:image" content="https://via.placeholder.com/150">
+    <link rel="shortcut icon" href="https://via.placeholder.com/32">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+    <!-- SweetAlert2 and jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        h1, h2, h3, .navbar-brand, .btn {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .light-theme {
+            background: #f0f4f8;
+            color: #1a1a1a;
+        }
+        .navbar {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            color: #e0e0e0;
+        }
+        .light-theme .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a1a;
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+        .light-theme .navbar-brand, .light-theme .nav-link {
+            color: #1a1a1a !important;
+            text-shadow: none;
+        }
+        .navbar-brand .python-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        #theme-toggle {
+            border: 2px solid #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .light-theme #theme-toggle {
+            border: 2px solid #1a1a1a;
+            background: rgba(26, 26, 26, 0.1);
+            color: #1a1a1a;
+        }
+        #theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .light-theme #theme-toggle:hover {
+            background: rgba(26, 26, 26, 0.2);
+        }
+        .glow-button {
+            background: linear-gradient(45deg, #0d6efd, #dc3545);
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .glow-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(13, 110, 253, 0.5);
+        }
+        .card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border: none;
+            transition: transform 0.3s;
+            color: #e0e0e0;
+        }
+        .light-theme .card {
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            color: #1a1a1a;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .form-label {
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .light-theme .form-label {
+            color: #1a1a1a;
+            text-shadow: none;
+        }
+        .form-control, .form-select {
+            background: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+        .light-theme .form-control, .light-theme .form-select {
+            background: #ffffff;
+            color: #1a1a1a;
+            border: 1px solid #ccc;
+        }
+        .preview-pane {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Roboto', monospace;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #d0d0d0;
+        }
+        .light-theme .preview-pane {
+            background: #e9ecef;
+            color: #1a1a1a;
+        }
+        .accordion-button {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: #ffffff;
+            background: #2a2a2a;
+        }
+        .light-theme .accordion-button {
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+        .accordion-button:not(.collapsed) {
+            background: #0d6efd;
+            color: #ffffff;
+        }
+        .accordion-body {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        .light-theme .accordion-body {
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+        .features-section {
+            padding: 4rem 0;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(5px);
+            color: #e0e0e0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .light-theme .features-section {
+            background: rgba(240, 244, 248, 0.9);
+            color: #1a1a1a;
+            text-shadow: none;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: rgba(40, 40, 40, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+        .light-theme .feature-card {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+            transition: transform 0.3s, color 0.3s;
+            text-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
+        }
+        .light-theme .feature-icon {
+            color: #dc3545;
+            text-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+            color: #00ff88;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(13, 110, 253, 0.1), rgba(0, 255, 136, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        .feature-card * {
+            position: relative;
+            z-index: 1;
+        }
+        .text-muted {
+            color: #b0b0b0 !important;
+        }
+        .light-theme .text-muted {
+            color: #6c757d !important;
+        }
+        footer {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 2rem 0;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+        }
+        body:not(.light-theme) footer {
+            background: rgba(26, 26, 26, 0.95) !important;
+            color: #ffffff !important;
+        }
+        .light-theme footer {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #1a1a1a !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .social-icons a {
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .social-icons a:hover {
+            transform: scale(1.2);
+        }
+        .social-icons .fa-telegram { color: #0088cc; }
+        .social-icons .fa-twitter { color: #1da1f2; }
+        .social-icons .fa-github { color: #333333; }
+        .social-icons .fa-facebook-f { color: #3b5998; }
+        .social-icons .fa-instagram { color: #e1306c; }
+        .social-icons .fa-youtube { color: #ff0000; }
+        .light-theme .social-icons .fa-telegram { color: #00aaff; }
+        .light-theme .social-icons .fa-twitter { color: #1da1f2; }
+        .light-theme .social-icons .fa-github { color: #666666; }
+        .light-theme .social-icons .fa-facebook-f { color: #4267b2; }
+        .light-theme .social-icons .fa-instagram { color: #f777b7; }
+        .light-theme .social-icons .fa-youtube { color: #ff3333; }
+        .footer-text {
+            color: inherit;
+            margin-bottom: 0.5rem;
+        }
+        .footer-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer-link:hover {
+            color: #0056b3;
+        }
+        .light-theme .footer-link {
+            color: #007bff;
+        }
+        .light-theme .footer-link:hover {
+            color: #0056b3;
+        }
+        .copyright {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+        }
+        .light-theme .copyright {
+            color: #666666;
+        }
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0d6efd;
+            border-radius: 4px;
+        }
+        .light-theme ::-webkit-scrollbar-track {
+            background: #e9ecef;
+        }
+        .light-theme ::-webkit-scrollbar-thumb {
+            background: #dc3545;
+        }
+        #broadcastSummary {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fab fa-python python-icon"></i>
+                <span class="fs-4">Smart Async Broadcast</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#SetBotData">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#FormattingOptions">Formatting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Develop">Develop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" id="ContactMenu">Contact</a></li>
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-outline-light ms-2"><i class="fas fa-moon"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="vh-100 d-flex align-items-center text-center" id="hero">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeIn">Smart Asynchronous Broadcast System</h1>
+            <p class="lead mb-5 animate__animated animate__fadeIn animate__delay-1s">The ultimate platform for seamless Telegram broadcasting with async power!</p>
+            <a href="#SetBotData" class="btn glow-button btn-lg animate__animated animate__fadeIn animate__delay-2s">Get Started</a>
+        </div>
+    </section>
+    <section class="features-section">
+        <div class="container text-center">
+            <h2 class="fs-1 fw-bold mb-5">Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-satellite-dish feature-icon"></i>
+                        <h3 class="fs-4 fw-semibold mt-3">Real-Time Broadcasting</h3>
+                        <p class="text-muted">Send messages instantly to thousands of users with real-time updates.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-clock feature-icon"></i>
+                        <h3 class="fs-4 fw-semibold mt-3">Message Scheduling</h3>
+                        <p class="text-muted">Schedule broadcasts for the perfect time with a simple date picker.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-photo-video feature-icon"></i>
+                        <h3 class="fs-4 fw-semibold mt-3">Multi-Media Support</h3>
+                        <p class="text-muted">Broadcast photos, videos, audio, documents, and voice notes effortlessly.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-chart-pie feature-icon"></i>
+                        <h3 class="fs-4 fw-semibold mt-3">Progress Tracking</h3>
+                        <p class="text-muted">Monitor success and failure rates with detailed logs and exports.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-cogs feature-icon"></i>
+                        <h3 class="fs-4 fw-semibold mt-3">Developer Tools</h3>
+                        <p class="text-muted">Extend functionality with API testing and plugin integration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container my-5">
+        <div id="main">
+            <div id="SetBotData" class="card p-4 mb-5">
+                <h2 class="card-title fs-3 fw-bold mb-4">Set Bot Data</h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Bot Token <span class="text-danger">*</span></label>
+                        <input type="text" id="BotToken" class="form-control" placeholder="1234567890:XXXXXXXXXXXXXXXXXXXXXXXXXXXX">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">User IDs <span class="text-danger">*</span></label>
+                        <textarea id="UserID" rows="4" class="form-control" placeholder="XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Upload User IDs</label>
+                        <input type="file" id="UploadUserID" class="form-control" accept="application/json">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">User ID Type <span class="text-danger">*</span></label>
+                        <select id="UserIDType" class="form-select">
+                            <option value="text">Text</option>
+                            <option value="json">JSON</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Method <span class="text-danger">*</span></label>
+                        <select id="Methods" class="form-select" onchange="toggleMethodFields()">
+                            <option value="sendMessage">Send Message</option>
+                            <option value="sendPhoto">Send Photo</option>
+                            <option value="sendAudio">Send Audio</option>
+                            <option value="sendDocument">Send Document</option>
+                            <option value="sendVideo">Send Video</option>
+                            <option value="sendVoice">Send Voice</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Schedule Broadcast</label>
+                        <input type="datetime-local" id="schedule" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Batch Size <span class="text-danger">*</span></label>
+                        <input type="number" id="batchSize" class="form-control" placeholder="50" value="50">
+                    </div>
+                </div>
+                <div id="MethodsSendMessage" class="mt-4">
+                    <label class="form-label fw-semibold">Message <span class="text-danger">*</span></label>
+                    <textarea id="text" rows="5" class="form-control mb-3" placeholder="Your message here..."></textarea>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
+                            <select id="parse_mode" class="form-select">
+                                <option value="Markdown">Markdown</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="HTML">HTML</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                        </div>
+                    </div>
+                    <label class="form-label fw-semibold mt-3">Message Preview</label>
+                    <div class="preview-pane" id="message-preview">Preview will appear here...</div>
+                </div>
+                <div id="MethodsSendPhoto" class="mt-4 d-none">
+                    <label class="form-label fw-semibold">Upload Photo <span class="text-danger">*</span></label>
+                    <input type="file" id="photo" class="form-control mb-3" accept="image/*">
+                    <label class="form-label fw-semibold">Caption</label>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Photo caption..."></textarea>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
+                            <select id="parse_mode" class="form-select">
+                                <option value="Markdown">Markdown</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="HTML">HTML</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                        </div>
+                    </div>
+                </div>
+                <div id="MethodsSendAudio" class="mt-4 d-none">
+                    <label class="form-label fw-semibold">Upload Audio <span class="text-danger">*</span></label>
+                    <input type="file" id="audio" class="form-control mb-3" accept="audio/*">
+                    <label class="form-label fw-semibold">Caption</label>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Audio caption..."></textarea>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
+                            <select id="parse_mode" class="form-select">
+                                <option value="Markdown">Markdown</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="HTML">HTML</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                        </div>
+                    </div>
+                </div>
+                <div id="MethodsSendDocument" class="mt-4 d-none">
+                    <label class="form-label fw-semibold">Upload Document <span class="text-danger">*</span></label>
+                    <input type="file" id="document" class="form-control mb-3" accept="application/*, text/*, font/*">
+                    <label class="form-label fw-semibold">Caption</label>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Document caption..."></textarea>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
+                            <select id="parse_mode" class="form-select">
+                                <option value="Markdown">Markdown</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="HTML">HTML</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                        </div>
+                    </div>
+                </div>
+                <div id="MethodsSendVideo" class="mt-4 d-none">
+                    <label class="form-label fw-semibold">Upload Video <span class="text-danger">*</span></label>
+                    <input type="file" id="video" class="form-control mb-3" accept="video/*">
+                    <label class="form-label fw-semibold">Caption</label>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Video caption..."></textarea>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
+                            <select id="parse_mode" class="form-select">
+                                <option value="Markdown">Markdown</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="HTML">HTML</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                        </div>
+                    </div>
+                </div>
+                <div id="MethodsSendVoice" class="mt-4 d-none">
+                    <label class="form-label fw-semibold">Upload Voice <span class="text-danger">*</span></label>
+                    <input type="file" id="voice" class="form-control mb-3" accept="audio/*">
+                    <label class="form-label fw-semibold">Caption</label>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Voice caption..."></textarea>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
+                            <select id="parse_mode" class="form-select">
+                                <option value="Markdown">Markdown</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="HTML">HTML</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                        </div>
+                    </div>
+                </div>
+                <button id="Start" class="btn glow-button w-100 mt-4">START BROADCAST</button>
+                <div id="broadcastSummary" class="mt-4">
+                    <h3>Broadcast Completed Successfully</h3>
+                    <p><strong>Successful:</strong> <span id="summarySuccess">0</span></p>
+                    <p><strong>Blocked:</strong> <span id="summaryBlocked">0</span></p>
+                </div>
+            </div>
+            <div id="Processing" class="card p-4 mb-5 d-none">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="card-title fs-3 fw-bold">Processing...</h2>
+                    <span id="percent" class="fs-4 fw-bold">0%</span>
+                </div>
+                <div class="progress mb-4">
+                    <div id="progressBar" class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <table class="table table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Total</th>
+                            <th>Completed</th>
+                            <th>Success</th>
+                            <th>Failed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="Total">0</td>
+                            <td id="Compleated">0</td>
+                            <td id="Success">0</td>
+                            <td id="Failed">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Success IDs</label>
+                    <div class="position-relative">
+                        <textarea id="SuccessUserID" rows="5" class="form-control" readonly></textarea>
+                        <button class="btn btn-link position-absolute top-0 end-0 m-2" onclick="copyIDS('SuccessUserID')"><i class="fas fa-clipboard"></i></button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Failed IDs</label>
+                    <div class="position-relative">
+                        <textarea id="FailedUserID" rows="5" class="form-control" readonly></textarea>
+                        <button class="btn btn-link position-absolute top-0 end-0 m-2" onclick="copyIDS('FailedUserID')"><i class="fas fa-clipboard"></i></button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Failed Details</label>
+                    <div class="position-relative">
+                        <textarea id="FailedDetails" rows="5" class="form-control" readonly></textarea>
+                        <button class="btn btn-link position-absolute top-0 end-0 m-2" onclick="copyIDS('FailedDetails')"><i class="fas fa-clipboard"></i></button>
+                    </div>
+                </div>
+                <button id="exportLogs" class="btn btn-success w-100">Export Logs (CSV/JSON)</button>
+            </div>
+            <div id="FormattingOptions" class="card p-4 mb-5 d-none">
+                <h2 class="card-title fs-3 fw-bold mb-4">Formatting Guide</h2>
+                <div class="accordion" id="formattingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingMarkdown">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMarkdown" aria-expanded="true" aria-controls="collapseMarkdown">
+                                Markdown
+                            </button>
+                        </h2>
+                        <div id="collapseMarkdown" class="accordion-collapse collapse show" aria-labelledby="headingMarkdown" data-bs-parent="#formattingAccordion">
+                            <div class="accordion-body">
+                                <p>Use <code>Markdown</code> in the parse_mode field. Syntax:</p>
+                                <pre class="preview-pane"><code>*bold text*
+_italic text_
+[inline URL](http://www.example.com/)
+`inline fixed-width code`
+```pre-formatted
+```python
+Python code block
+```</code></pre>
+                                <p>Note: No nested entities. Use MarkdownV2 for advanced formatting.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingMarkdownV2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMarkdownV2" aria-expanded="false" aria-controls="collapseMarkdownV2">
+                                MarkdownV2
+                            </button>
+                        </h2>
+                        <div id="collapseMarkdownV2" class="accordion-collapse collapse" aria-labelledby="headingMarkdownV2" data-bs-parent="#formattingAccordion">
+                            <div class="accordion-body">
+                                <p>Use <code>MarkdownV2</code> for advanced formatting. Syntax:</p>
+                                <pre class="preview-pane"><code>*bold \*text*
+_italic \*text_
+__underline__
+~strikethrough~
+||spoiler||
+[inline URL](http://www.example.com/)</code></pre>
+                                <p>Escape special characters with \. Supports nested entities.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingHTML">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHTML" aria-expanded="false" aria-controls="collapseHTML">
+                                HTML
+                            </button>
+                        </h2>
+                        <div id="collapseHTML" class="accordion-collapse collapse" aria-labelledby="headingHTML" data-bs-parent="#formattingAccordion">
+                            <div class="accordion-body">
+                                <p>Use <code>HTML</code> for precise formatting. Supported tags:</p>
+                                <pre class="preview-pane"><code>&lt;b&gt;bold&lt;/b&gt;
+&lt;i&gt;italic&lt;/i&gt;
+&lt;u&gt;underline&lt;/u&gt;
+&lt;s&gt;strikethrough&lt;/s&gt;
+&lt;a href="http://www.example.com/"&gt;inline URL&lt;/a&gt;</code></pre>
+                                <p>Replace &lt;, &gt;, and &amp; with HTML entities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="Develop" class="card p-4 mb-5 d-none">
+                <h2 class="card-title fs-3 fw-bold mb-4">Develop</h2>
+                <p class="mb-4">Build and extend the Smart Asynchronous Broadcast System with custom features.</p>
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item bg-transparent">Test custom Telegram API endpoints.</li>
+                    <li class="list-group-item bg-transparent">Integrate plugins for advanced message types.</li>
+                    <li class="list-group-item bg-transparent">Contribute at <a href="https://github.com/nyeinkokoaung404" class="text-primary">github.com/nyeinkokoaung404</a>.</li>
+                    <li class="list-group-item bg-transparent">Docs at <a href="#" class="text-primary">docs.smartbroadcast.com</a>.</li>
+                </ul>
+                <label class="form-label fw-semibold">API Test Endpoint</label>
+                <input type="text" id="apiTest" class="form-control mb-3" placeholder="e.g., https://api.telegram.org/bot<token>/getMe">
+                <button id="testApi" class="btn glow-button">Test API</button>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-white bg-opacity-95 py-10 text-center">
+        <div class="social-icons mb-6">
+            <a href="https://t.me/nkka404" target="_blank"><i class="fa-brands fa-telegram text-blue-500"></i></a>
+            <a href="https://x.com/nkka404" target="_blank"><i class="fa-brands fa-twitter text-blue-500"></i></a>
+            <a href="https://github.com/nyeinkokoaung404" target="_blank"><i class="fa-brands fa-github text-gray-800"></i></a>
+            <a href="https://facebook.com/www.nyeinkokoaung.2015" target="_blank"><i class="fa-brands fa-facebook-f text-blue-700"></i></a>
+            <a href="https://instagram.com/nkka404" target="_blank"><i class="fa-brands fa-instagram text-pink-600"></i></a>
+            <a href="https://youtube.com/@nkka404" target="_blank"><i class="fa-brands fa-youtube text-red-600"></i></a>
+        </div>
+        <p class="footer-text mb-2">Built with ❤️ by <a href="https://t.me/nkka404" target="_blank" class="footer-link"><i class="fas fa-python"></i> @nkka404</a></p>
+        <p class="footer-text mb-4">Join our community at <a href="https://t.me/premium_channel_404" target="_blank" class="footer-link"><i class="fa-brands fa-telegram"></i> @premium_channel_404</a></p>
+        <p class="copyright">© 2025 Smart Asynchronous Broadcast System</p>
+    </footer>
+    <div id="loader" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-black bg-opacity-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particlesArray = [];
+        const numberOfParticles = 100;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(13, 110, 253, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+        function connectParticles() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    const dx = particlesArray[a].x - particlesArray[b].x;
+                    const dy = particlesArray[a].y - particlesArray[b].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(13, 110, 253, ${1 - distance / 100})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        init();
+        animate();
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+    <script>
+        // Theme Toggle
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            document.getElementById('theme-toggle').innerHTML = document.body.classList.contains('light-theme') ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            document.body.style.display = 'none';
+            setTimeout(() => {
+                document.body.style.display = '';
+            }, 10);
+        });
+        // Contact Menu
+        document.getElementById('ContactMenu').addEventListener('click', () => {
+            window.open('https://t.me/TheSmartDev', '_blank');
+        });
+        // Message Preview with Parse Mode
+        function updateMessagePreview() {
+            const text = document.getElementById('text').value || 'Preview will appear here...';
+            const parseMode = document.getElementById('parse_mode').value;
+            const preview = document.getElementById('message-preview');
+            function sanitizeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+            function parseMarkdown(text) {
+                let html = text;
+                html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+                html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+                html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+                html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+                html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+                return html;
+            }
+            function parseMarkdownV2(text) {
+                let html = text;
+                html = html.replace(/\\([*_`\[\\])/g, '$1');
+                html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+                html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+                html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+                html = html.replace(/~(.*?)~/g, '<s>$1</s>');
+                html = html.replace(/\|\|(.*?)\|\|/g, '<span style="background-color: #000; color: #000;">$1</span>');
+                html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+                html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+                return html;
+            }
+            function parseHTML(text) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const allowedTags = ['b', 'i', 'u', 's', 'a', 'code', 'pre'];
+                const allowedAttributes = ['href'];
+                const cleanNode = (node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (!allowedTags.includes(node.tagName.toLowerCase())) {
+                            return document.createTextNode(node.textContent);
+                        }
+                        const newNode = document.createElement(node.tagName);
+                        for (const attr of node.attributes) {
+                            if (allowedAttributes.includes(attr.name)) {
+                                newNode.setAttribute(attr.name, attr.value);
+                            }
+                        }
+                        for (const child of node.childNodes) {
+                            const cleanedChild = cleanNode(child);
+                            if (cleanedChild) newNode.appendChild(cleanedChild);
+                        }
+                        return newNode;
+                    } else if (node.nodeType === Node.TEXT_NODE) {
+                        return document.createTextNode(node.textContent);
+                    }
+                    return null;
+                };
+                const cleaned = cleanNode(doc.body.firstChild);
+                return cleaned ? cleaned.outerHTML || cleaned.textContent : text;
+            }
+            let formattedText;
+            if (parseMode === 'Markdown') {
+                formattedText = parseMarkdown(text);
+            } else if (parseMode === 'MarkdownV2') {
+                formattedText = parseMarkdownV2(text);
+            } else if (parseMode === 'HTML') {
+                formattedText = parseHTML(text);
+            } else {
+                formattedText = sanitizeHTML(text);
+            }
+            preview.innerHTML = formattedText;
+        }
+        // Event listeners for text input and parse mode change
+        document.getElementById('text').addEventListener('input', updateMessagePreview);
+        document.getElementById('parse_mode').addEventListener('change', updateMessagePreview);
+        // Section Navigation
+        ['SetBotData', 'FormattingOptions', 'Develop'].forEach(id => {
+            document.querySelector(`a[href="#${id}"]`).addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('#main > div').forEach(div => div.classList.add('d-none'));
+                document.getElementById(id).classList.remove('d-none');
+                window.scrollTo({ top: document.getElementById(id).offsetTop - 70, behavior: 'smooth' });
+            });
+        });
+        // Toggle Method Fields
+        function toggleMethodFields() {
+            const method = document.getElementById('Methods').value;
+            const messageSection = document.getElementById('MethodsSendMessage');
+            const photoSection = document.getElementById('MethodsSendPhoto');
+            const audioSection = document.getElementById('MethodsSendAudio');
+            const documentSection = document.getElementById('MethodsSendDocument');
+            const videoSection = document.getElementById('MethodsSendVideo');
+            const voiceSection = document.getElementById('MethodsSendVoice');
+            [messageSection, photoSection, audioSection, documentSection, videoSection, voiceSection].forEach(section => section.classList.add('d-none'));
+            if (method === 'sendMessage') {
+                messageSection.classList.remove('d-none');
+                updateMessagePreview();
+            } else if (method === 'sendPhoto') {
+                photoSection.classList.remove('d-none');
+            } else if (method === 'sendAudio') {
+                audioSection.classList.remove('d-none');
+            } else if (method === 'sendDocument') {
+                documentSection.classList.remove('d-none');
+            } else if (method === 'sendVideo') {
+                videoSection.classList.remove('d-none');
+            } else if (method === 'sendVoice') {
+                voiceSection.classList.remove('d-none');
+            }
+        }
+        // Initialize toggle and preview on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleMethodFields();
+            updateMessagePreview();
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>
