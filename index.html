@@ -7,33 +7,16 @@
     <meta name="description" content="Smart Asynchronous Broadcast System: 🚀 The ultimate Telegram broadcasting platform with async power and elegance!">
     <meta property="og:image" content="https://via.placeholder.com/150">
     <link rel="shortcut icon" href="https://via.placeholder.com/32">
-    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
-    
-    <!-- Quill Rich Text Editor -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    
-    <!-- KaTeX for formulas -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    
-    <!-- Quill Table Module -->
-    <script src="https://cdn.jsdelivr.net/npm/quill-table@1.0.0/dist/quill-table.min.js"></script>
-    
     <!-- SweetAlert2 and jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
     <style>
-        /* Base Styles */
         body {
             font-family: 'Roboto', sans-serif;
             background: #0a0a0a;
@@ -41,18 +24,13 @@
             overflow-x: hidden;
             transition: background 0.3s, color 0.3s;
         }
-        
         h1, h2, h3, .navbar-brand, .btn {
             font-family: 'Orbitron', sans-serif;
         }
-        
-        /* Theme */
         .light-theme {
             background: #f0f4f8;
             color: #1a1a1a;
         }
-        
-        /* Navbar */
         .navbar {
             background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(10px);
@@ -70,7 +48,10 @@
             color: #1a1a1a !important;
             text-shadow: none;
         }
-        
+        .navbar-brand .python-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
         #theme-toggle {
             border: 2px solid #ffffff;
             background: rgba(255, 255, 255, 0.1);
@@ -81,8 +62,12 @@
             background: rgba(26, 26, 26, 0.1);
             color: #1a1a1a;
         }
-        
-        /* Buttons */
+        #theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .light-theme #theme-toggle:hover {
+            background: rgba(26, 26, 26, 0.2);
+        }
         .glow-button {
             background: linear-gradient(45deg, #0d6efd, #dc3545);
             border: none;
@@ -92,8 +77,6 @@
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(13, 110, 253, 0.5);
         }
-        
-        /* Cards */
         .card {
             background: rgba(30, 30, 30, 0.8);
             backdrop-filter: blur(10px);
@@ -109,8 +92,6 @@
         .card:hover {
             transform: translateY(-5px);
         }
-        
-        /* Forms */
         .form-label {
             color: #ffffff;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -129,8 +110,6 @@
             color: #1a1a1a;
             border: 1px solid #ccc;
         }
-        
-        /* Preview Pane */
         .preview-pane {
             background: #1a1a1a;
             border-radius: 8px;
@@ -144,8 +123,6 @@
             background: #e9ecef;
             color: #1a1a1a;
         }
-        
-        /* Accordion */
         .accordion-button {
             font-family: 'Orbitron', sans-serif;
             font-weight: 600;
@@ -168,17 +145,17 @@
             background: #ffffff;
             color: #1a1a1a;
         }
-        
-        /* Features */
         .features-section {
             padding: 4rem 0;
             background: rgba(20, 20, 20, 0.9);
             backdrop-filter: blur(5px);
             color: #e0e0e0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
         .light-theme .features-section {
             background: rgba(240, 244, 248, 0.9);
             color: #1a1a1a;
+            text-shadow: none;
         }
         .feature-card {
             text-align: center;
@@ -211,17 +188,46 @@
             transform: scale(1.2);
             color: #00ff88;
         }
-        
-        /* Footer */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(13, 110, 253, 0.1), rgba(0, 255, 136, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        .feature-card * {
+            position: relative;
+            z-index: 1;
+        }
+        .text-muted {
+            color: #b0b0b0 !important;
+        }
+        .light-theme .text-muted {
+            color: #6c757d !important;
+        }
         footer {
             background: rgba(26, 26, 26, 0.95);
             padding: 2rem 0;
             text-align: center;
             color: #ffffff;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+        }
+        body:not(.light-theme) footer {
+            background: rgba(26, 26, 26, 0.95) !important;
+            color: #ffffff !important;
         }
         .light-theme footer {
             background: rgba(255, 255, 255, 0.95) !important;
             color: #1a1a1a !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         .social-icons a {
             margin: 0 10px;
@@ -243,88 +249,30 @@
         .light-theme .social-icons .fa-facebook-f { color: #4267b2; }
         .light-theme .social-icons .fa-instagram { color: #f777b7; }
         .light-theme .social-icons .fa-youtube { color: #ff3333; }
-        
-        /* Rich Editor Styles */
-        .ql-toolbar.ql-snow {
-            background: #2a2a2a;
-            border-color: #444;
-            border-radius: 8px 8px 0 0;
+        .footer-text {
+            color: inherit;
+            margin-bottom: 0.5rem;
         }
-        .ql-container.ql-snow {
-            background: #1a1a1a;
-            border-color: #444;
-            border-radius: 0 0 8px 8px;
-            min-height: 200px;
+        .footer-link {
+            color: #007bff;
+            text-decoration: none;
         }
-        .ql-snow .ql-picker-label {
-            color: #e0e0e0;
+        .footer-link:hover {
+            color: #0056b3;
         }
-        .ql-snow .ql-stroke {
-            stroke: #e0e0e0;
+        .light-theme .footer-link {
+            color: #007bff;
         }
-        .ql-snow .ql-fill {
-            fill: #e0e0e0;
+        .light-theme .footer-link:hover {
+            color: #0056b3;
         }
-        .ql-snow .ql-picker-options {
-            background: #2a2a2a;
-            border-color: #444;
+        .copyright {
+            color: #aaaaaa;
+            font-size: 0.9rem;
         }
-        
-        .light-theme .ql-toolbar.ql-snow {
-            background: #f0f0f0;
-            border-color: #ccc;
+        .light-theme .copyright {
+            color: #666666;
         }
-        .light-theme .ql-container.ql-snow {
-            background: #ffffff;
-            border-color: #ccc;
-        }
-        .light-theme .ql-snow .ql-picker-label {
-            color: #1a1a1a;
-        }
-        .light-theme .ql-snow .ql-stroke {
-            stroke: #1a1a1a;
-        }
-        .light-theme .ql-snow .ql-fill {
-            fill: #1a1a1a;
-        }
-        .light-theme .ql-snow .ql-picker-options {
-            background: #ffffff;
-            border-color: #ccc;
-        }
-        
-        .ql-formula {
-            display: inline-block;
-            padding: 2px 4px;
-            background: rgba(13, 110, 253, 0.1);
-            border-radius: 4px;
-            border: 1px solid rgba(13, 110, 253, 0.3);
-        }
-        
-        .ql-snow .ql-editor table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 10px 0;
-        }
-        .ql-snow .ql-editor table td {
-            border: 1px solid #444;
-            padding: 8px;
-        }
-        .light-theme .ql-snow .ql-editor table td {
-            border-color: #ccc;
-        }
-        
-        .ql-snow .ql-editor pre.ql-syntax {
-            background: #0a0a0a;
-            color: #e0e0e0;
-            padding: 10px;
-            border-radius: 4px;
-        }
-        .light-theme .ql-snow .ql-editor pre.ql-syntax {
-            background: #f0f0f0;
-            color: #1a1a1a;
-        }
-        
-        /* Particles */
         #particles {
             position: fixed;
             top: 0;
@@ -333,8 +281,6 @@
             height: 100%;
             z-index: -1;
         }
-        
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -351,42 +297,14 @@
         .light-theme ::-webkit-scrollbar-thumb {
             background: #dc3545;
         }
-        
         #broadcastSummary {
             display: none;
             margin-top: 20px;
-        }
-        
-        .footer-text {
-            color: inherit;
-            margin-bottom: 0.5rem;
-        }
-        .footer-link {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .footer-link:hover {
-            color: #0056b3;
-        }
-        .copyright {
-            color: #aaaaaa;
-            font-size: 0.9rem;
-        }
-        .light-theme .copyright {
-            color: #666666;
-        }
-        .text-muted {
-            color: #b0b0b0 !important;
-        }
-        .light-theme .text-muted {
-            color: #6c757d !important;
         }
     </style>
 </head>
 <body>
     <canvas id="particles"></canvas>
-    
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#">
@@ -409,8 +327,6 @@
             </div>
         </div>
     </nav>
-    
-    <!-- Hero Section -->
     <section class="vh-100 d-flex align-items-center text-center" id="hero">
         <div class="container">
             <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeIn">Smart Asynchronous Broadcast System</h1>
@@ -418,8 +334,6 @@
             <a href="#SetBotData" class="btn glow-button btn-lg animate__animated animate__fadeIn animate__delay-2s">Get Started</a>
         </div>
     </section>
-    
-    <!-- Features Section -->
     <section class="features-section">
         <div class="container text-center">
             <h2 class="fs-1 fw-bold mb-5">Features</h2>
@@ -462,11 +376,8 @@
             </div>
         </div>
     </section>
-    
-    <!-- Main Content -->
     <div class="container my-5">
         <div id="main">
-            <!-- Set Bot Data -->
             <div id="SetBotData" class="card p-4 mb-5">
                 <h2 class="card-title fs-3 fw-bold mb-4">Set Bot Data</h2>
                 <div class="row g-4">
@@ -509,17 +420,9 @@
                         <input type="number" id="batchSize" class="form-control" placeholder="50" value="50">
                     </div>
                 </div>
-                
-                <!-- Send Message with Rich Editor -->
                 <div id="MethodsSendMessage" class="mt-4">
                     <label class="form-label fw-semibold">Message <span class="text-danger">*</span></label>
-                    
-                    <!-- Rich Text Editor -->
-                    <div id="richEditor" style="height: 300px; background: #1a1a1a; color: #e0e0e0; border-radius: 8px; margin-bottom: 15px;"></div>
-                    
-                    <!-- Hidden textarea for storing content -->
-                    <textarea id="text" style="display:none;"></textarea>
-                    
+                    <textarea id="text" rows="5" class="form-control mb-3" placeholder="Your message here..."></textarea>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
@@ -534,34 +437,18 @@
                             <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
                         </div>
                     </div>
-                    
-                    <!-- AI Content Generator -->
-                    <div class="mt-3">
-                        <button id="aiGenerateBtn" class="btn btn-info btn-sm me-2">
-                            <i class="fas fa-robot"></i> Generate with AI
-                        </button>
-                        <button id="clearEditorBtn" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Clear
-                        </button>
-                        <button id="insertFormulaBtn" class="btn btn-warning btn-sm">
-                            <i class="fas fa-square-root-variable"></i> Insert Formula
-                        </button>
-                    </div>
-                    
                     <label class="form-label fw-semibold mt-3">Message Preview</label>
                     <div class="preview-pane" id="message-preview">Preview will appear here...</div>
                 </div>
-                
-                <!-- Send Photo -->
                 <div id="MethodsSendPhoto" class="mt-4 d-none">
                     <label class="form-label fw-semibold">Upload Photo <span class="text-danger">*</span></label>
                     <input type="file" id="photo" class="form-control mb-3" accept="image/*">
                     <label class="form-label fw-semibold">Caption</label>
-                    <textarea id="caption_photo" rows="3" class="form-control mb-3" placeholder="Photo caption..."></textarea>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Photo caption..."></textarea>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
-                            <select id="parse_mode_photo" class="form-select">
+                            <select id="parse_mode" class="form-select">
                                 <option value="Markdown">Markdown</option>
                                 <option value="MarkdownV2">MarkdownV2</option>
                                 <option value="HTML">HTML</option>
@@ -569,21 +456,19 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
-                            <input type="number" id="loop_photo" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
                         </div>
                     </div>
                 </div>
-                
-                <!-- Send Audio -->
                 <div id="MethodsSendAudio" class="mt-4 d-none">
                     <label class="form-label fw-semibold">Upload Audio <span class="text-danger">*</span></label>
                     <input type="file" id="audio" class="form-control mb-3" accept="audio/*">
                     <label class="form-label fw-semibold">Caption</label>
-                    <textarea id="caption_audio" rows="3" class="form-control mb-3" placeholder="Audio caption..."></textarea>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Audio caption..."></textarea>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
-                            <select id="parse_mode_audio" class="form-select">
+                            <select id="parse_mode" class="form-select">
                                 <option value="Markdown">Markdown</option>
                                 <option value="MarkdownV2">MarkdownV2</option>
                                 <option value="HTML">HTML</option>
@@ -591,21 +476,19 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
-                            <input type="number" id="loop_audio" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
                         </div>
                     </div>
                 </div>
-                
-                <!-- Send Document -->
                 <div id="MethodsSendDocument" class="mt-4 d-none">
                     <label class="form-label fw-semibold">Upload Document <span class="text-danger">*</span></label>
                     <input type="file" id="document" class="form-control mb-3" accept="application/*, text/*, font/*">
                     <label class="form-label fw-semibold">Caption</label>
-                    <textarea id="caption_document" rows="3" class="form-control mb-3" placeholder="Document caption..."></textarea>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Document caption..."></textarea>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
-                            <select id="parse_mode_document" class="form-select">
+                            <select id="parse_mode" class="form-select">
                                 <option value="Markdown">Markdown</option>
                                 <option value="MarkdownV2">MarkdownV2</option>
                                 <option value="HTML">HTML</option>
@@ -613,21 +496,19 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
-                            <input type="number" id="loop_document" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
                         </div>
                     </div>
                 </div>
-                
-                <!-- Send Video -->
                 <div id="MethodsSendVideo" class="mt-4 d-none">
                     <label class="form-label fw-semibold">Upload Video <span class="text-danger">*</span></label>
                     <input type="file" id="video" class="form-control mb-3" accept="video/*">
                     <label class="form-label fw-semibold">Caption</label>
-                    <textarea id="caption_video" rows="3" class="form-control mb-3" placeholder="Video caption..."></textarea>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Video caption..."></textarea>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
-                            <select id="parse_mode_video" class="form-select">
+                            <select id="parse_mode" class="form-select">
                                 <option value="Markdown">Markdown</option>
                                 <option value="MarkdownV2">MarkdownV2</option>
                                 <option value="HTML">HTML</option>
@@ -635,21 +516,19 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
-                            <input type="number" id="loop_video" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
                         </div>
                     </div>
                 </div>
-                
-                <!-- Send Voice -->
                 <div id="MethodsSendVoice" class="mt-4 d-none">
                     <label class="form-label fw-semibold">Upload Voice <span class="text-danger">*</span></label>
                     <input type="file" id="voice" class="form-control mb-3" accept="audio/*">
                     <label class="form-label fw-semibold">Caption</label>
-                    <textarea id="caption_voice" rows="3" class="form-control mb-3" placeholder="Voice caption..."></textarea>
+                    <textarea id="caption" rows="3" class="form-control mb-3" placeholder="Voice caption..."></textarea>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Parse Mode <span class="text-danger">*</span></label>
-                            <select id="parse_mode_voice" class="form-select">
+                            <select id="parse_mode" class="form-select">
                                 <option value="Markdown">Markdown</option>
                                 <option value="MarkdownV2">MarkdownV2</option>
                                 <option value="HTML">HTML</option>
@@ -657,21 +536,17 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Sending Interval (ms) <span class="text-danger">*</span></label>
-                            <input type="number" id="loop_voice" class="form-control" placeholder="1000 = 1 sec" value="1000">
+                            <input type="number" id="loop" class="form-control" placeholder="1000 = 1 sec" value="1000">
                         </div>
                     </div>
                 </div>
-                
                 <button id="Start" class="btn glow-button w-100 mt-4">START BROADCAST</button>
-                
                 <div id="broadcastSummary" class="mt-4">
                     <h3>Broadcast Completed Successfully</h3>
                     <p><strong>Successful:</strong> <span id="summarySuccess">0</span></p>
                     <p><strong>Blocked:</strong> <span id="summaryBlocked">0</span></p>
                 </div>
             </div>
-            
-            <!-- Processing -->
             <div id="Processing" class="card p-4 mb-5 d-none">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="card-title fs-3 fw-bold">Processing...</h2>
@@ -721,9 +596,7 @@
                 </div>
                 <button id="exportLogs" class="btn btn-success w-100">Export Logs (CSV/JSON)</button>
             </div>
-            
-            <!-- Formatting Options -->
-            <div id="FormattingOptions" class="card p-4 mb-5">
+            <div id="FormattingOptions" class="card p-4 mb-5 d-none">
                 <h2 class="card-title fs-3 fw-bold mb-4">Formatting Guide</h2>
                 <div class="accordion" id="formattingAccordion">
                     <div class="accordion-item">
@@ -786,9 +659,7 @@ __underline__
                     </div>
                 </div>
             </div>
-            
-            <!-- Develop -->
-            <div id="Develop" class="card p-4 mb-5">
+            <div id="Develop" class="card p-4 mb-5 d-none">
                 <h2 class="card-title fs-3 fw-bold mb-4">Develop</h2>
                 <p class="mb-4">Build and extend the Smart Asynchronous Broadcast System with custom features.</p>
                 <ul class="list-group list-group-flush mb-4">
@@ -798,13 +669,11 @@ __underline__
                     <li class="list-group-item bg-transparent">Docs at <a href="#" class="text-primary">docs.smartbroadcast.com</a>.</li>
                 </ul>
                 <label class="form-label fw-semibold">API Test Endpoint</label>
-                <input type="text" id="apiTest" class="form-control mb-3" placeholder="e.g., https://api.telegram.org/bot&lt;token&gt;/getMe">
+                <input type="text" id="apiTest" class="form-control mb-3" placeholder="e.g., https://api.telegram.org/bot<token>/getMe">
                 <button id="testApi" class="btn glow-button">Test API</button>
             </div>
         </div>
     </div>
-    
-    <!-- Footer -->
     <footer class="bg-white bg-opacity-95 py-10 text-center">
         <div class="social-icons mb-6">
             <a href="https://t.me/nkka404" target="_blank"><i class="fa-brands fa-telegram text-blue-500"></i></a>
@@ -818,11 +687,10 @@ __underline__
         <p class="footer-text mb-4">Join our community at <a href="https://t.me/premium_channel_404" target="_blank" class="footer-link"><i class="fa-brands fa-telegram"></i> @premium_channel_404</a></p>
         <p class="copyright">© 2025 Smart Asynchronous Broadcast System</p>
     </footer>
-    
-    <!-- Scripts -->
+    <div id="loader" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-black bg-opacity-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Particles Background -->
     <script>
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
@@ -830,7 +698,6 @@ __underline__
         canvas.height = window.innerHeight;
         const particlesArray = [];
         const numberOfParticles = 100;
-        
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
@@ -853,13 +720,11 @@ __underline__
                 ctx.fill();
             }
         }
-        
         function init() {
             for (let i = 0; i < numberOfParticles; i++) {
                 particlesArray.push(new Particle());
             }
         }
-        
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particlesArray.forEach(particle => {
@@ -869,7 +734,6 @@ __underline__
             connectParticles();
             requestAnimationFrame(animate);
         }
-        
         function connectParticles() {
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
@@ -887,17 +751,13 @@ __underline__
                 }
             }
         }
-        
         init();
         animate();
-        
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
     </script>
-    
-    <!-- UI Controls -->
     <script>
         // Theme Toggle
         document.getElementById('theme-toggle').addEventListener('click', () => {
@@ -908,51 +768,125 @@ __underline__
                 document.body.style.display = '';
             }, 10);
         });
-        
         // Contact Menu
         document.getElementById('ContactMenu').addEventListener('click', () => {
             window.open('https://t.me/TheSmartDev', '_blank');
         });
-        
+        // Message Preview with Parse Mode
+        function updateMessagePreview() {
+            const text = document.getElementById('text').value || 'Preview will appear here...';
+            const parseMode = document.getElementById('parse_mode').value;
+            const preview = document.getElementById('message-preview');
+            function sanitizeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+            function parseMarkdown(text) {
+                let html = text;
+                html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+                html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+                html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+                html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+                html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+                return html;
+            }
+            function parseMarkdownV2(text) {
+                let html = text;
+                html = html.replace(/\\([*_`\[\\])/g, '$1');
+                html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+                html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+                html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+                html = html.replace(/~(.*?)~/g, '<s>$1</s>');
+                html = html.replace(/\|\|(.*?)\|\|/g, '<span style="background-color: #000; color: #000;">$1</span>');
+                html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+                html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+                return html;
+            }
+            function parseHTML(text) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const allowedTags = ['b', 'i', 'u', 's', 'a', 'code', 'pre'];
+                const allowedAttributes = ['href'];
+                const cleanNode = (node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (!allowedTags.includes(node.tagName.toLowerCase())) {
+                            return document.createTextNode(node.textContent);
+                        }
+                        const newNode = document.createElement(node.tagName);
+                        for (const attr of node.attributes) {
+                            if (allowedAttributes.includes(attr.name)) {
+                                newNode.setAttribute(attr.name, attr.value);
+                            }
+                        }
+                        for (const child of node.childNodes) {
+                            const cleanedChild = cleanNode(child);
+                            if (cleanedChild) newNode.appendChild(cleanedChild);
+                        }
+                        return newNode;
+                    } else if (node.nodeType === Node.TEXT_NODE) {
+                        return document.createTextNode(node.textContent);
+                    }
+                    return null;
+                };
+                const cleaned = cleanNode(doc.body.firstChild);
+                return cleaned ? cleaned.outerHTML || cleaned.textContent : text;
+            }
+            let formattedText;
+            if (parseMode === 'Markdown') {
+                formattedText = parseMarkdown(text);
+            } else if (parseMode === 'MarkdownV2') {
+                formattedText = parseMarkdownV2(text);
+            } else if (parseMode === 'HTML') {
+                formattedText = parseHTML(text);
+            } else {
+                formattedText = sanitizeHTML(text);
+            }
+            preview.innerHTML = formattedText;
+        }
+        // Event listeners for text input and parse mode change
+        document.getElementById('text').addEventListener('input', updateMessagePreview);
+        document.getElementById('parse_mode').addEventListener('change', updateMessagePreview);
+        // Section Navigation
+        ['SetBotData', 'FormattingOptions', 'Develop'].forEach(id => {
+            document.querySelector(`a[href="#${id}"]`).addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('#main > div').forEach(div => div.classList.add('d-none'));
+                document.getElementById(id).classList.remove('d-none');
+                window.scrollTo({ top: document.getElementById(id).offsetTop - 70, behavior: 'smooth' });
+            });
+        });
         // Toggle Method Fields
         function toggleMethodFields() {
             const method = document.getElementById('Methods').value;
-            const sections = {
-                'sendMessage': document.getElementById('MethodsSendMessage'),
-                'sendPhoto': document.getElementById('MethodsSendPhoto'),
-                'sendAudio': document.getElementById('MethodsSendAudio'),
-                'sendDocument': document.getElementById('MethodsSendDocument'),
-                'sendVideo': document.getElementById('MethodsSendVideo'),
-                'sendVoice': document.getElementById('MethodsSendVoice')
-            };
-            
-            Object.values(sections).forEach(section => section.classList.add('d-none'));
-            if (sections[method]) {
-                sections[method].classList.remove('d-none');
+            const messageSection = document.getElementById('MethodsSendMessage');
+            const photoSection = document.getElementById('MethodsSendPhoto');
+            const audioSection = document.getElementById('MethodsSendAudio');
+            const documentSection = document.getElementById('MethodsSendDocument');
+            const videoSection = document.getElementById('MethodsSendVideo');
+            const voiceSection = document.getElementById('MethodsSendVoice');
+            [messageSection, photoSection, audioSection, documentSection, videoSection, voiceSection].forEach(section => section.classList.add('d-none'));
+            if (method === 'sendMessage') {
+                messageSection.classList.remove('d-none');
+                updateMessagePreview();
+            } else if (method === 'sendPhoto') {
+                photoSection.classList.remove('d-none');
+            } else if (method === 'sendAudio') {
+                audioSection.classList.remove('d-none');
+            } else if (method === 'sendDocument') {
+                documentSection.classList.remove('d-none');
+            } else if (method === 'sendVideo') {
+                videoSection.classList.remove('d-none');
+            } else if (method === 'sendVoice') {
+                voiceSection.classList.remove('d-none');
             }
         }
-        
-        // Section Navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
-                    }
-                }
-            });
-        });
-        
-        // Initialize
+        // Initialize toggle and preview on page load
         document.addEventListener('DOMContentLoaded', () => {
             toggleMethodFields();
+            updateMessagePreview();
         });
     </script>
-    
-    <!-- Main Script -->
     <script src="js/script.js"></script>
 </body>
 </html>
